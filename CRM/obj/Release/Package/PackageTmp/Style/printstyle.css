@@ -1,0 +1,63 @@
+﻿* {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.box {
+    font-size: 1.5rem;
+    margin: 0 auto;
+    width: 98%;
+}
+
+    .box .part1 {
+        text-align: center;
+    }
+
+        .box .part1 h3 {
+            color: red !important;
+            font-size: 4rem;
+            margin-bottom: 1.7rem;
+        }
+
+        .box .part1 img {
+            width: 15rem;
+        }
+
+        .box .part1 p {
+            line-height: 0.7rem;
+            color: #18171c !important;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+    .box .address {
+        line-height: 1.8rem;
+        margin-top: 3rem;
+    }
+
+table {
+    font-size: 1.4rem;
+    width:100%;
+    border-collapse:collapse;
+}
+
+    th {
+        background-color: #e12424 !important;
+        color: white !important;
+        border:1px solid #18171c;
+        padding:0.7rem;
+    }
+    td{
+        border:1px solid #18171c;
+        padding:0.6rem;
+    }
+
+.box .term {
+    line-height: 2rem;
+    font-size: 1.3rem;
+}
+
+b{
+    color:#18171c !important;
+}

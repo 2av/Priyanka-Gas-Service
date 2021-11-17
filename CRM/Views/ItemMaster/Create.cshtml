@@ -1,0 +1,198 @@
+﻿@model DAL.ItemMaster
+
+@{
+    ViewBag.Title = "Item Master";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="block-header">
+    <!-- Colorpicker Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" rel="stylesheet" />
+    <!-- Dropzone Css -->
+    <link href="~/Content/Theme/Admin/plugins/dropzone/dropzone.css" rel="stylesheet">
+    <!-- Multi Select Css -->
+    <link href="~/Content/Theme/Admin/plugins/multi-select/css/multi-select.css" rel="stylesheet">
+    <!-- Bootstrap Spinner Css -->
+    <link href="~/Content/Theme/Admin/plugins/jquery-spinner/css/bootstrap-spinner.css" rel="stylesheet">
+    <!-- Bootstrap Tagsinput Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+    <!-- Bootstrap Select Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <!-- noUISlider Css -->
+    @*<link href="~/Content/Theme/Admin/plugins/nouislider/nouislider.min.css" rel="stylesheet" />*@
+    <!-- Custom Css -->
+    <link href="~/Content/Theme/Admin/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/Content/Theme/Admin/css/themes/all-themes.css" rel="stylesheet" />
+</div>
+<div class="block-header">
+    <h2>
+        Gas Type
+        @*<small>Taken from <a href="https://datatables.net/" target="_blank">datatables.net</a></small>*@
+    </h2>
+</div>
+<!-- Inline Layout | With Floating Label -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Add New
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="~/ItemMaster/Index">View Item Details</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                @using (Html.BeginForm())
+                {
+                    <div class="row clearfix">
+                        @Html.HiddenFor(m => m.ItemId, new { @class = "form-control" })
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    @Html.TextBoxFor(m => m.ItemName, new { @class = "form-control" })
+                                    <label class="form-label">Item Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    @Html.TextBoxFor(m => m.ItemDescription, new { @class = "form-control" })
+                                    <label class="form-label">Item Description</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                                    <label class="form-label">Price</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    @Html.TextBoxFor(m => m.SecurityDeposite, new { @class = "form-control" })
+                                    <label class="form-label">Security Deposite</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    @Html.TextBoxFor(m => m.ServiceCharges, new { @class = "form-control" })
+                                    <label class="form-label">Service Charges</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-primary" onclick="SaveData()">Save Item</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Inline Layout | With Floating Label -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/scripts/CommonScripts.js"></script>
+<!-- Jquery Core Js -->
+
+<script>
+
+    function SaveData() {
+        var ItemId = $("#ItemId").val().trim();
+        var ItemName = $("#ItemName").val().trim();
+        var ItemDescription = $("#ItemDescription").val().trim();
+        var Price = $("#Price").val().trim();
+        var SecurityDeposite = $("#SecurityDeposite").val().trim();
+        var ServiceCharges = $("#ServiceCharges").val().trim();
+
+        if (ItemName == "") {
+            alert("Please Enter Item Name");
+            $("#ItemName").focus();
+            return;
+        }
+        if (ItemDescription == "") {
+            alert("Please Enter Item Description");
+            $("#ItemDescription").focus();
+            return;
+        }
+        if (Price == "") {
+            alert("Please Enter Item Price");
+            $("#Price").focus();
+            return;
+        }
+        if (SecurityDeposite == "") {
+            alert("Please Enter Security Deposite");
+            $("#SecurityDeposite").focus();
+            return;
+        }
+        if (ServiceCharges == "") {
+            alert("Please Enter Service Charges");
+            $("#ServiceCharges").focus();
+            return;
+        }
+        $(".page-loader-wrapper").show();
+        var data = {
+            ItemId: ItemId,
+            ItemName: ItemName,
+            ItemDescription:ItemDescription,
+            Price: Price,
+            SecurityDeposite: SecurityDeposite,
+            ServiceCharges: ServiceCharges
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ItemMaster/SaveData",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+
+    }
+</script>
+
+<script src="~/Content/Theme/Admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap Core Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap/js/bootstrap.js"></script>
+<!-- Select Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- Slimscroll Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- Bootstrap Colorpicker Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<!-- Dropzone Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/dropzone/dropzone.js"></script>
+<!-- Input Mask Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+<!-- Multi Select Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/multi-select/js/jquery.multi-select.js"></script>
+<!-- Jquery Spinner Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-spinner/js/jquery.spinner.js"></script>
+<!-- Bootstrap Tags Input Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- noUISlider Plugin Js -->
+@*<script src="~/Content/Theme/Admin/plugins/nouislider/nouislider.js"></script>*@
+<!-- Waves Effect Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/node-waves/waves.js"></script>
+<!-- Custom Js -->
+<script src="~/Content/Theme/Admin/js/admin.js"></script>
+<script src="~/Content/Theme/Admin/js/pages/forms/advanced-form-elements.js"></script>
+<!-- Demo Js -->
+<script src="~/Content/Theme/Admin/js/demo.js"></script>
+

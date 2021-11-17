@@ -1,0 +1,67 @@
+﻿@model List<DAL.GasStock>
+    @{ 
+        Layout= null;
+    }
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .bg-primary {
+        color: #fff;
+        background-color: #337ab7;
+    }
+</style>
+<div class="container">
+    <h3>@ViewBag.employee.FirstName @ViewBag.employee.LastName (@ViewBag.FromDate @ViewBag.ToDate)</h3>
+    @if (string.IsNullOrEmpty(ViewBag.EntryForId))
+    {
+        <a href="@ViewBag.Url" target="_blank" class="btn btn-success">Print</a>
+    }
+
+    <table class="table">
+        <tr class="bg-primary">
+            <th>Type</th>
+            <th>10KG</th>
+            <th>15KG</th>
+            <th>17KG</th>
+            <th>19KG</th>
+        </tr>
+        <tr>
+            <td class="type"><h6>Full Cylinder</h6></td>
+            <td>@Model[0]._10KG</td>
+            <td>@Model[0]._15KG</td>
+            <td>@Model[0]._17KG</td>
+            <td>@Model[0]._19KG</td>
+        </tr>
+        <tr>
+            <td class="type"><h6>Sale  Cylinder</h6></td>
+            <td>@Model[1]._10KG</td>
+            <td>@Model[1]._15KG</td>
+            <td>@Model[1]._17KG</td>
+            <td>@Model[1]._19KG</td>
+
+        </tr>
+        <tr class="tr_readonly">
+            <td class="type"><h6>Return</h6></td>
+            <td>@Model[2]._10KG</td>
+            <td>@Model[2]._15KG</td>
+            <td>@Model[2]._17KG</td>
+            <td>@Model[2]._19KG</td>
+
+        </tr>
+        <tr class="tr_readonly">
+            <td class="type"><h6>Empty  Cylinder</h6></td>
+            <td>@Model[3]._10KG</td>
+            <td>@Model[3]._15KG</td>
+            <td>@Model[3]._17KG</td>
+            <td>@Model[3]._19KG</td>
+
+        </tr>
+        <tr class="">
+            <td class="type"><h6>Balance  Cylinder</h6></td>
+            <td>@Model[4]._10KG</td>
+            <td>@Model[4]._15KG</td>
+            <td>@Model[4]._17KG</td>
+            <td>@Model[4]._19KG</td>
+        </tr>
+    </table>
+</div>
+

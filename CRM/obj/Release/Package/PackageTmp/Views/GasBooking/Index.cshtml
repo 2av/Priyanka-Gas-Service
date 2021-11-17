@@ -1,0 +1,216 @@
+﻿@model  System.Data.DataTable
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="block-header">
+    <!-- JQuery DataTable Css -->
+    <link href="~/Content/Theme/Admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- Custom Css -->
+    <link href="~/Content/Theme/Admin/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/Content/Theme/Admin/css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="~/Content/Theme/Admin/plugins/node-waves/waves.css" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="~/Content/Theme/Admin/plugins/animate-css/animate.css" rel="stylesheet" />
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <!-- Wait Me Css -->
+    <link href="~/Content/Theme/Admin/plugins/waitme/waitMe.css" rel="stylesheet" />
+    <!-- Bootstrap Select Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="~/Content/Theme/Admin/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/Content/Theme/Admin/css/themes/all-themes.css" rel="stylesheet" />
+</div>
+<!-- Exportable Table -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    List of Gas Booking Details
+
+                </h2>
+
+                <div class="row clearfix">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="datepicker form-control fromdate" placeholder="Please choose a from date" data-dtp="dtp_yu0pI">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="datepicker form-control todate" placeholder="Please choose a To date" data-dtp="dtp_yu0pI">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="search()">Search</button>
+                            <a href="/GasBooking/Index" class="btn btn-sm btn-primary">Reset</a>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-success right" id="printbtn" href="" target="_blank">Print All</a>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="/GasBooking/Booking">Book Gas</a></li>
+                            @*<li><a href="javascript:void(0);">Another action</a></li>
+                                <li><a href="javascript:void(0);">Something else here</a></li>*@
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div>
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <thead>
+                                <tr>
+                                    @foreach (System.Data.DataColumn col in Model.Columns)
+                                    {
+                                        <th>@col.ColumnName</th>
+                                    }
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    @foreach (System.Data.DataColumn col in Model.Columns)
+                                    {
+                                        <th>@col.ColumnName</th>
+                                    }
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @{
+                                    string id = "";
+                                }
+                                @foreach (System.Data.DataRow row in Model.Rows)
+                                {
+                                    <tr>
+                                        @foreach (System.Data.DataColumn col in Model.Columns)
+                                        { 
+                                            <td>@row[col.ColumnName]</td>
+                                        }
+                                        @{ 
+                                            id +=Convert.ToString(row["booking id"])+",";
+                                        }
+                                        <td><a class="btn btn-success btn-sm" target="_blank" href="/Print/GasBookedBill/@row["Booking id"]" data-bookingid="@row["Booking id"]">Print</a></td>
+                                    </tr>
+                                            
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Exportable Table -->
+<!-- Jquery Core Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery/jquery.min.js"></script>
+
+
+<script>
+    var printid = '@id';
+    $(document).ready(function () {
+
+        $("#printbtn").attr("href","/Print/GasBookedBill?printid=" + printid);
+
+    });
+    function search() {
+        var FromDate = $(".fromdate").val();
+        var ToDate = $(".todate").val();
+        FromDate = new Date(FromDate);
+        ToDate = new Date(ToDate);
+        var urlFromDate = "";
+        var urlToDate = "";
+        var returnPath = location.origin + "/GasBooking/Index";
+        if (FromDate != "Invalid Date") {
+            var month = "";
+            debugger;
+            if ((FromDate.getMonth() + 1) < 10) {
+                month = "0" + (FromDate.getMonth() + 1);
+            }
+            else {
+                month = (FromDate.getMonth() + 1);
+            }
+
+
+            urlFromDate = "FromDate=" + month + "-" + FromDate.getDate() + "-" + FromDate.getFullYear();
+            returnPath += "?" + urlFromDate;
+
+            if (ToDate != "Invalid Date") {
+                if ((ToDate.getMonth() + 1) < 10) {
+                    month = "0" + (ToDate.getMonth() + 1);
+                }
+                else {
+                    month = (ToDate.getMonth() + 1);
+                }
+                urlToDate = "ToDate=" + month + "-" + (ToDate.getDate()) + "-" + ToDate.getFullYear();
+                returnPath += "&" + urlToDate;
+            }
+            location.href = returnPath;
+        }
+
+    }
+
+
+</script>
+
+<!-- Bootstrap Core Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap/js/bootstrap.js"></script>
+<!-- Select Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- Slimscroll Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- Waves Effect Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/node-waves/waves.js"></script>
+
+
+<script src="~/Content/Theme/Admin/plugins/autosize/autosize.js"></script>
+<script src="~/Content/Theme/Admin/plugins/momentjs/moment.js"></script>
+<script src="~/Content/Theme/Admin/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+<script src="~/Content/Theme/Admin/js/pages/forms/basic-form-elements.js"></script>
+
+
+<!-- Jquery DataTable Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+<script src="~/Content/Theme/Admin/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+<!-- Custom Js -->
+<script src="~/Content/Theme/Admin/js/admin.js"></script>
+<script src="~/Content/Theme/Admin/js/pages/tables/jquery-datatable.js"></script>
+<!-- Demo Js -->
+<script src="~/Content/Theme/Admin/js/demo.js"></script>
+

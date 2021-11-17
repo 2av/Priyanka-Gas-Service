@@ -1,0 +1,256 @@
+﻿@model DAL.BuyProduct
+@{
+    ViewBag.Title = "Booking";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="block-header">
+    <!-- Colorpicker Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" rel="stylesheet" />
+    <!-- Dropzone Css -->
+    <link href="~/Content/Theme/Admin/plugins/dropzone/dropzone.css" rel="stylesheet">
+    <!-- Multi Select Css -->
+    <link href="~/Content/Theme/Admin/plugins/multi-select/css/multi-select.css" rel="stylesheet">
+    <!-- Bootstrap Spinner Css -->
+    <link href="~/Content/Theme/Admin/plugins/jquery-spinner/css/bootstrap-spinner.css" rel="stylesheet">
+    <!-- Bootstrap Tagsinput Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+    <!-- Bootstrap Select Css -->
+    <link href="~/Content/Theme/Admin/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <!-- noUISlider Css -->
+    @*<link href="~/Content/Theme/Admin/plugins/nouislider/nouislider.min.css" rel="stylesheet" />*@
+    <!-- Custom Css -->
+    <link href="~/Content/Theme/Admin/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/Content/Theme/Admin/css/themes/all-themes.css" rel="stylesheet" />
+</div>
+<div class="block-header">
+    <h2></h2>
+</div>
+<!-- Inline Layout | With Floating Label -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Buy Products
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="~/BuyProduct/Index">List of Buy Products</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                @using (Html.BeginForm())
+                {
+                    
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group form-float">
+                                <label class="form-label">Invoice No: @Model.InvoiceNo</label>
+                                @Html.HiddenFor(x => x.InvoiceNo, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <label class="form-label">* Seller Name</label>
+                                @Html.DropDownListFor(x => x.SellerId, new SelectList(ViewBag.SellerMaster, "Text", "Value"), "Select Seller", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group form-float">
+                                <label class="form-label">* Gas Booking for customer</label>
+                                @Html.DropDownListFor(x => x.ProductId, new SelectList(ViewBag.GasMaster, "Text", "Value"), "Select Gas Type", new { @class = "form-control" })
+                            </div>
+                            <div class="btn btn-sm btn-success" onclick="AddProduct()">Add</div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label class="form-label">* Select Item and Add the Product</label>
+                            <table class="table ItemList">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.</th>
+                                        <th>Product Name-Price</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                        <th>Remove</th>
+                                        <th>Add</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <div class="right">Total: <label class="Subtotal">0</label></div><br/>
+                            <div id="btnSubmit" class="right btn btn-primary btn-lg m-l-15 waves-effect" onclick="Save()">Save</div>
+                            </div>
+                        </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Inline Layout | With Floating Label -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Jquery Core Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery/jquery.min.js"></script>
+
+
+<script>
+    var ProductList = [];
+    function AddProduct() {
+
+        var SellerId = $("#SellerId").val();
+        var ProductId = $("#ProductId").val();
+        var ProductName = $("#ProductId option:selected").text();
+        var Quantity=1;
+        if (SellerId == "0" || SellerId == "") {
+            alert("Please Select Seller");
+            return;
+        }
+        if (ProductId == "0" || ProductId == "") {
+            alert("Please Select Product");
+            return;
+        }
+
+        var poductItem = {
+            SellerId: SellerId,
+            ProductId: ProductId,
+            Quantity: Quantity
+        };
+
+        var charges = ProductName.split("|")[1];
+        var ProductName = ProductName.split("|")[0];
+        debugger;
+        var srno = $(".productitem").length + 1;
+        var html = "<tr class='productitem' data-id='productitem_" + srno + "'>";
+        html += "<td>" + srno + "</td>";
+        html += "<td class='productname'>" + ProductName + "</td>";
+        html += "<td><input type='text' id='txt_"+srno+"' style='width:50px' readonly='readonly' class='form-control qty' data-ProductId='" + ProductId + "'  data-charges='" + charges + "' value='" + Quantity + "' onkeyup='calculateTotal()'/></td>";
+        html += "<td><span class='price'>" + charges + "</span></td>";
+        html += "<td><span class='total'>" + charges + "</span></td>";
+        html += "<td><div class='btn btn-warning btn-sm' data-id='productitem_" + srno + "' onclick='Remove("+srno+")'>-</div></td>";
+        html += "<td><div class='btn btn-success btn-sm' data-id='productitem_" + srno + "' onclick='Add(" + srno + ")'>+</div></td>";
+        html += "<td><div class='btn btn-danger btn-sm' data-id='productitem_" + srno + "' onclick='DeleteRow(this)'>Delete</div></td>";
+        html += "<tr>";
+        $(".ItemList tbody").append(html);
+        calculateTotal();
+    }
+    function Remove(srn) {
+        var val = parseInt($("#txt_" + srn).val());
+        if (val != 1) {
+            val--;
+            $("#txt_" + srn).val(val);
+            calculateTotal();
+        }
+    }
+    function Add(srn) {
+        var val = parseInt($("#txt_" + srn).val());
+        val++
+        $("#txt_" + srn).val(val);
+        calculateTotal();
+        
+    }
+    function calculateTotal() {
+        var subtotal = 0;
+        $(".productitem").each(function () {
+            var charges =parseInt($(this).find(".qty").attr("data-charges"));
+            var qty = parseInt($(this).find(".qty").val());
+            if (!isNaN(charges) && !isNaN(qty)) {
+                var Total = charges * qty;
+                $(this).find(".total").text(Total);
+                subtotal+=Total;
+            }
+        });
+        $(".Subtotal").text(subtotal);
+    }
+    function DeleteRow(btn) {
+        $(btn).parents(".productitem").remove();
+        calculateTotal();
+    }
+    function Save() {
+        if ($(".productitem").length > 0) {
+            var ProductItem = [];
+            var vmBuyProductItems = [];
+            var SellerId = $("#SellerId").val();
+            var InvoiceNo = $("#InvoiceNo").val();
+
+            $(".productitem").each(function () {
+                var ProductId = $("#ProductId").val();
+                var ProductName = $(this).find(".productname").text();
+                var Quantity = parseInt($(this).find(".qty").val());
+                var ProductId=$(this).find(".qty").attr("data-ProductId");
+                var ProductPrice = parseInt($(this).find(".qty").attr("data-charges"));
+
+
+                var items = {
+                    ProductId: ProductId,
+                    ProductName: ProductName,
+                    Quantity: Quantity,
+                    ProductPrice: ProductPrice
+
+                };
+                vmBuyProductItems.push(items);
+            });
+            var data = {
+                SellerId: SellerId,
+                InvoiceNo:InvoiceNo,
+                BuyProductItems: vmBuyProductItems
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: "/BuyProduct/SaveData",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
+
+<!-- Bootstrap Core Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap/js/bootstrap.js"></script>
+<!-- Select Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- Slimscroll Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<!-- Bootstrap Colorpicker Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<!-- Dropzone Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/dropzone/dropzone.js"></script>
+<!-- Input Mask Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+<!-- Multi Select Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/multi-select/js/jquery.multi-select.js"></script>
+<!-- Jquery Spinner Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/jquery-spinner/js/jquery.spinner.js"></script>
+<!-- Bootstrap Tags Input Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- noUISlider Plugin Js -->
+@*<script src="~/Content/Theme/Admin/plugins/nouislider/nouislider.js"></script>*@
+<!-- Waves Effect Plugin Js -->
+<script src="~/Content/Theme/Admin/plugins/node-waves/waves.js"></script>
+<!-- Custom Js -->
+<script src="~/Content/Theme/Admin/js/admin.js"></script>
+<script src="~/Content/Theme/Admin/js/pages/forms/advanced-form-elements.js"></script>
+<!-- Demo Js -->
+<script src="~/Content/Theme/Admin/js/demo.js"></script>
+
+<script src="~/scripts/CommonScripts.js"></script>

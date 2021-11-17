@@ -1,0 +1,331 @@
+﻿@model CRM.Models.ViewModel.vmCustomerDetailsItem
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bill</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .txt-line {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .table {
+            margin-bottom: 0px;
+        }
+
+        .container {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        body {
+            color: #0e0c23 !important;
+        }
+
+        .table > tbody > tr > td {
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <table class="table">
+                        <tbody style="border: 1px solid #ddd;">
+                            <tr>
+                                <td colspan="2">
+                                    <p style="font-size:25px;font-weight:bold;text-align:center;color: #e43d04;">
+                                        PRIYANKA GAS SERVICE
+                                    </p>
+
+                                    <p style="font-size:25px;font-weight:bold;text-align:center;color: #0a016b;">
+                                        NEW MAHANAGER MARKETING SERVICE
+                                    </p>
+                                    <p style="font-size:20px;text-align:center;color: #0a016b;">
+                                        AUTHORISED DISTRIBUTORSHIP OF GAS POINT DOMESTIC 7 COMMERCIAL
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;text-align:right;">
+                                    <img src="~/Content/Images/logo/gaspointwithbottle.png" style="width:165px;">
+                                </td>
+                                <td>
+                                    <div class="col-lg-9">
+                                        <p style="font-size:18px;text-align:center;color:#131129;font-weight:bold;">
+                                            (Mumbai)Mob.: 9320102179 / 9324778914 / 9819933648<br>
+                                            ALL OVER MUMBAI (Commercial / Domestic Gas)<br>
+                                            SUBSCRIPTION VOUCHER
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4" style="text-align:center">
+                                                    <p style="font-size:25px;text-align:center;">
+                                                        Distributor Stamp
+                                                    </p>
+                                                    <p style="height:90px;">
+                                                        <img src="~/Content/Images/logo/gaspointlogo.png" style="width:150px;">
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="inputofferNo1" class="control-label">Domestic</label>
+                                                </td>
+                                                <td>
+                                                    @if (Model.CustomerType == "Domestic")
+                                                    {
+                                                        <input type="checkbox" name="Domestic" value="Domestic" checked disabled>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="Domestic" value="Domestic" readonly disabled>
+                                                    }
+                                                    
+                                                </td>
+                                                <td>
+                                                    <label for="inputofferNo1" class="control-label">Commercial</label>
+                                                </td>
+                                                <td>
+                                                    @if (Model.CustomerType == "Commercial")
+                                                    {
+                                                        <input type="checkbox" name="Domestic" value="Commercial" checked disabled>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="Domestic" value="Commercial"  disabled>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label for="inputconbo" class="control-label">CUSTOMER NAME</label>
+                                                </td>
+                                                <td>
+                                                    <span>@Model.FirstName @Model.LastName</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="inputdate" class="control-label">DATE</label>
+                                                </td>
+                                                <td>
+                                                    <span>@Model.CreatedDate</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="inputconbo" class="control-label">VOUCHER NO</label>
+                                                </td>
+                                                <td>
+                                                    <span>@Model.ConsumerNo</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="inputdate" class="control-label">DATE</label>
+                                                </td>
+                                                <td>
+                                                    <span>@Model.CreatedDate</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+                <tr>
+                    <table class="table">
+                        <tbody style="border: 1px solid #ddd;">
+                            <tr>
+                                <td style="width:150px;">
+                                    <label for="ipxutconbo" class="control-label">Customer Name</label>
+                                </td>
+                                <td>
+                                    <span>@Model.FirstName @Model.LastName</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="inputconbo" class="control-label">Address</label>
+                                </td>
+                                <td>
+                                    <span>@Model.Address</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="inputconbo" class="control-label">Phone No.</label>
+                                </td>
+                                <td>
+                                    <span>@Model.PhoneNo/@Model.AlternateNo</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+                <tr>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">
+                                    Sr. NO.
+                                </th>
+                                <th style="text-align:center;">
+                                    Item Description
+                                </th>
+                                <th style="text-align:center;">
+                                    Security Deposit
+                                </th>
+                                <th style="text-align:center;">
+                                    Service Charges
+                                </th>
+                                <th style="text-align:center;">
+                                    Total
+                                </th>
+                                <th style="text-align:center;">
+                                    Qty.
+                                </th>
+                                <th colspan="2" style="text-align:center;">
+                                    Amount <br>
+                                    <span>Rs.</span> <span style="text-align:right;">P.</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 0;
+                                double? TotalAmount = 0;
+                                }
+                            @foreach (var item in Model.ItemMaster)
+                            {
+                                count++;
+                                TotalAmount += item.Qty * item.Total;
+                            <tr style="text-align:center">
+                                <td>
+                                    <p style="font-weight:bold;">@count.</p>
+                                </td>
+                                <td>
+                                    <p style="font-weight:bold;">@item.ItemName</p>
+                                </td>
+                                <td>
+                                    @if (item.SecurityDeposite != 0)
+                                    {
+                                        @item.SecurityDeposite
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (item.ServiceCharges!=0)
+                                    {
+                                    @item.ServiceCharges
+                                    }
+                                </td>
+                                <td>@item.Total</td>
+                                <td>@item.Qty</td>
+                                <td>@(item.Total * item.Qty)</td>
+                                <td>00</td>
+                            </tr>
+                            }
+                            <tr>
+                                <td colspan="5">
+                                    <span style="font-weight:bold;">Amount in Words:</span>
+                                    <span class="totalamountinword"></span>
+                                </td>
+                                <td class=""></td>
+                                <td colspan="2" class="totalamount">@TotalAmount</td>
+                            </tr>
+                            <tr>
+                                <table class="table">
+                                    <tbody>
+                                        <tr style="border: 1px solid #ddd;color:#0a016b;font-size:15px;">
+                                            <td>
+                                                <p style="font-size:15px;font-weight:bold;">
+                                                    CYLINDER & REGULATOR NOT FOR SALE
+                                                </p>
+                                                <p style="font-size:15px;">
+                                                    Subject to Terms & Conditions
+                                                </p>
+                                                <p style="font-size:15px;">
+                                                    Printed Overleaf
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="font-size:15px;color:#131129;">
+                                                    NMML L.P.G. Gas Service
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="font-size:15px;color:#131129;">
+                                                    Name & Signature of the Consumer
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </tr>
+                            <tr>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label for="inputconbo" class="control-label">Prepared by</label>
+                                            </td>
+                                            <td>
+                                                <label for="inputconbo" class="control-label">Checked</label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script src="~/scripts/CommonScripts.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".totalamountinword").text(convertNumberToWords($(".totalamount").text())+' Only');
+    });
+    
+</script>
