@@ -143,7 +143,8 @@
                             <input type="hidden" value="@Model.ProfileImage" id="ProfileImage"/>
                             <input type="file"
                                    class="filepond"
-                                   name="filepond"
+                                   name="FileUpload1"
+                                   id="btnUpload"
                                    accept="image/png, image/jpeg, image/gif" />
                         </div>
                        
@@ -231,13 +232,13 @@
 
     }
 
-$(document).ready(function(){
-    $('#btnUpload').click(function () {
+    $(document).ready(function () {
+        $('#btnUpload').change(function () {
 
         // Checking whether FormData is available in browser
         if (window.FormData !== undefined) {
 
-            var fileUpload = $("#FileUpload1").get(0);
+            var fileUpload = $(this).get(0);
             var files = fileUpload.files;
 
             // Create FormData object
